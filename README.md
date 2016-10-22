@@ -34,7 +34,7 @@ lastEvent:
        startTime               datetime,
        updateTime              datetime,
        startBaro               real
-    );
+       );
 
 rainEventData:
  CREATE TABLE IF NOT EXISTS rainEventData (
