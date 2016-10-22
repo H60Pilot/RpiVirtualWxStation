@@ -1,4 +1,6 @@
 ﻿# RpiVirtualWxStation
+ 
+ NOTE:  Open this file above for a better formatted version..... 
 
 There are many variants of virtual weather stations on the web and github. However, many gather information 
 directly from some type of display device through the attached USB.  My weather display device doesn't have 
