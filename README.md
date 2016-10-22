@@ -6,18 +6,18 @@ There are many variants of virtual weather stations on the web and github. Howev
 directly from some type of display device through the attached USB.  My weather display device doesn't have
 a USB.  So I created this configuration to gather my farm's weather and Saratoga templates to display the information.    
 
-**Hardware:**
+###Hardware:
 Acurite 5n1 (not the pro) 433 mhz
 Raspberry Pi 2
 NooElec NESDR Mini SDR & DVB-T USB Stick (RTL2832 + R820T) w/ Antenna
 
-**Software:**
+###Software:
 https://github.com/merbanan/rtl_433
 http://saratoga-weather.org/wxtemplates/WXwebsite.php
 rtl_433_wrapper.py (can't find original source for credit)
 PHP, Python, SQLite3
 
-**System:**
+###System:
 The system consists of a Raspberry Pi 2 with a DVB-T USB SDR.  Merbanan's rtl_433.92 is called using a
 wrapper (rtl_433AccuriteToWXSQL.py) which writes Time, Temp, Humidity, Wind Speed, Direction, and Rain
 Counter to an SQLite3 database.  An intermediate table “lastEvent” is also used to track the storm start
@@ -39,17 +39,17 @@ the WLTags file over some interval.  On the fly only delays the page about 1-2 s
 Configuration Highlights:
 I assume you have PHP and Apache installed and running.  From here...
 
-1. Install Saratoga Weather PHP templates following the instructions on the site to setup and configure.  
+* Install Saratoga Weather PHP templates following the instructions on the site to setup and configure.  
 I used the Weather Link Template set.  
 
-2. Install Merbanan's rtl_433
+* Install Merbanan's rtl_433
 
-3. Copy  rtl_433AccuriteToWXSQL.py, createWLtages.py, checkStormEvent.py
+* Copy  rtl_433AccuriteToWXSQL.py, createWLtages.py, checkStormEvent.py
 
-4. Create the SQLite3 database and tables:
+* Create the SQLite3 database and tables:
 
-*lastEvent:*
-```
+####lastEvent:
+```sql
     CREATE TABLE IF NOT EXISTS lastEvent (
         startTime               datetime,
         updateTime              datetime,
@@ -57,8 +57,8 @@ I used the Weather Link Template set.
         );
 
 ```
-*rainEventData:*
-```
+####rainEventData:
+```sql
 
     CREATE TABLE IF NOT EXISTS rainEventData (
         startTime               datetime,
@@ -66,27 +66,27 @@ I used the Weather Link Template set.
         );
 
 ```
-*wxInfo:*
+####wxInfo:
+```sql
+
+    CREATE TABLE IF NOT EXISTS wxInfo (
+        insDate                 datetime,
+        windSpeed               real,
+        windDirection           real,
+        temp                    real,
+        humidity                real,
+        rainGauge               real,
+        rainCounter             int
 ```
 
-CREATE TABLE IF NOT EXISTS wxInfo (
-    insDate                 datetime,
-    windSpeed               real,
-    windDirection           real,
-    temp                    real,
-    humidity                real,
-    rainGauge               real,
-    rainCounter             int
-```
-
-5. If you choose to run the weather updates on demand, modify the wxindex.php file by placing an
+* If you choose to run the weather updates on demand, modify the wxindex.php file by placing an
 if(){ at the beginning and don't forget the closing } at the end of the file.  The if statement
 is needed for php to wait until the file is written. I've read a lot of commentary about how
 this is not necessary, but if I don't do it, the php script grabs the WLTags.php file before
 the python script can finish writing the file.  Event sleep() statements in the python script
 didn't' help.  If you have a better way, please let me know!  
 
-```
+```php
 <?php
     $result = exec('/path/to/createWLTags.py');
     if ($result){
@@ -102,14 +102,14 @@ didn't' help.  If you have a better way, please let me know!
     }
 
 ```
-6. Create the crontab jobs:
+* Create the crontab jobs:
    * checkStormEvent.py (every 6 mins?)
    * if you choose to continually update weather creatWLTags.py (every minute?)
 
-7.  I run rtl_433AccuriteToWXSQL.py in a tmux shell to keep it active when I log off.  
+*  I run rtl_433AccuriteToWXSQL.py in a tmux shell to keep it active when I log off.  
 Other methods exists as you wish.
 
-**TO DO:  **
+###TO DO:  
 1.  This creates about 2.5Gb files per month.  At a monthly interval, create a script to clean data greater than 2 months out of the database.  
 
 2.  Optimize configuration and queries for speed. Seems like a lot of database calls per weather update.  This is currently exists due to different time requirements per query.  
