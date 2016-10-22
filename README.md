@@ -69,3 +69,17 @@ CREATE TABLE IF NOT EXISTS wxInfo (
 		#####################################################################
 		include("footer.php");
 	}
+
+6. Create the crontab jobs:
+	a. checkStormEvent.py (every 6 mins?)
+	b. if you choose to continually update weather creatWLTags.py (every minute?)
+
+7.  I run rtl_433AccuriteToWXSQL.py in a tmux shell to keep it active when I log off.  Other methods exists as you wish. 
+
+TO DO:  
+1.  This creates about 2.5Gb files per month.  At a monthly interval, create a script to clean data greater than 2 months out of the database.  
+
+2.  Optimize configuration and queries for speed. Seems like a lot of database calls per weather update.  This is currently exists due to different time requirements per query.  
+
+Please toss me an email if you like this and/or use or have suggestions!
+h60pilot@gmail.com
