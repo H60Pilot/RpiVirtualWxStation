@@ -49,19 +49,26 @@ I used the Weather Link Template set.
 4. Create the SQLite3 database and tables:
 
 *lastEvent:*
+```
     CREATE TABLE IF NOT EXISTS lastEvent (
         startTime               datetime,
         updateTime              datetime,
         startBaro               real
         );
 
+```
 *rainEventData:*
+```
+
     CREATE TABLE IF NOT EXISTS rainEventData (
         startTime               datetime,
         eventRainAmount         real
         );
 
+```
 *wxInfo:*
+```
+
 CREATE TABLE IF NOT EXISTS wxInfo (
     insDate                 datetime,
     windSpeed               real,
@@ -70,8 +77,7 @@ CREATE TABLE IF NOT EXISTS wxInfo (
     humidity                real,
     rainGauge               real,
     rainCounter             int
-
-
+```
 
 5. If you choose to run the weather updates on demand, modify the wxindex.php file by placing an
 if(){ at the beginning and don't forget the closing } at the end of the file.  The if statement
@@ -80,6 +86,7 @@ this is not necessary, but if I don't do it, the php script grabs the WLTags.php
 the python script can finish writing the file.  Event sleep() statements in the python script
 didn't' help.  If you have a better way, please let me know!  
 
+```
 <?php
     $result = exec('/path/to/createWLTags.py');
     if ($result){
@@ -94,6 +101,7 @@ didn't' help.  If you have a better way, please let me know!
     include("footer.php");
     }
 
+```
 6. Create the crontab jobs:
    * checkStormEvent.py (every 6 mins?)
    * if you choose to continually update weather creatWLTags.py (every minute?)
@@ -101,7 +109,7 @@ didn't' help.  If you have a better way, please let me know!
 7.  I run rtl_433AccuriteToWXSQL.py in a tmux shell to keep it active when I log off.  
 Other methods exists as you wish.
 
-TO DO:  
+**TO DO:  **
 1.  This creates about 2.5Gb files per month.  At a monthly interval, create a script to clean data greater than 2 months out of the database.  
 
 2.  Optimize configuration and queries for speed. Seems like a lot of database calls per weather update.  This is currently exists due to different time requirements per query.  
