@@ -5,15 +5,15 @@ directly from some type of display device through the attached USB.  My weather 
 a USB.  So I created this configuration to gather my farm's weather and Saratoga templates to display the information.    
 
 ###Hardware:
-*Acurite 5n1 (not the pro) 433 mhz
-*Raspberry Pi 2
-*NooElec NESDR Mini SDR & DVB-T USB Stick (RTL2832 + R820T) w/ Antenna
+* Acurite 5n1 (not the pro) 433 mhz
+* Raspberry Pi 2
+* NooElec NESDR Mini SDR & DVB-T USB Stick (RTL2832 + R820T) w/ Antenna
 
 ###Software:
-*https://github.com/merbanan/rtl_433
-*http://saratoga-weather.org/wxtemplates/WXwebsite.php
-*rtl_433_wrapper.py (can't find original source for credit)
-*PHP, Python, SQLite3
+* https://github.com/merbanan/rtl_433
+* http://saratoga-weather.org/wxtemplates/WXwebsite.php
+* rtl_433_wrapper.py (can't find original source for credit)
+* PHP, Python, SQLite3
 
 ###System:
 The system consists of a Raspberry Pi 2 with a DVB-T USB SDR.  Merbanan's rtl_433.92 is called using a
