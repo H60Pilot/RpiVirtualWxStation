@@ -17,7 +17,7 @@ There are many variants of virtual weather stations on the web and github. Howev
 The system consists of a Raspberry Pi 2 with a DVB-T USB SDR.  Merbanan's rtl_433 is called using a wrapper *(rtl_433AccuriteToWXSQL.py)* which writes Time, Temp, Humidity, Wind Speed, Direction, and Rain Counter to an SQLite3 database.  An intermediate table *“lastEvent”* is also used to track the storm start time and barometer along with the time when the rain counter was updated.  Independent of this, a cron job runs at a desired interval to check the last time the rain counter was updated.  This cron job determines if it is still raining, or if the storm is over.  If the storm is over *(based on some rules)*, the time when the storm started and the amount of rain is entered into the “rainEventData” table for archive queries (Yearly Rain). From these 3 tables, all my local weather information is tracked for Satatoga-Weather.org templates.  
 
 I used the Base-USA and Weather Link Template sets for the Saratoga virtual weather display. Instead of relying on an expensive Davis weather station to update the weather data, I use Python which reads an SQLite database to create the information Saratoga is looking for.  My scripts create the WLTags.php file which Saratoga parses to create the virtual display.  Really, all of the other magic is handled by Saratoga.  It's up to you how often you would like to update the weather information for the website.
-If you're patient and want to keep unnecessary queries from running, then you can modify the wxinfo.php file to run the createWLTags.py script on the fly. Or, you can set up a cron job to constantly update the WLTags file over some interval.  On the fly only delays the page about 1-2 seconds, so I use this method.  
+If you're patient and want to keep unnecessary queries from running, then you can modify the wxindex.php file to run the createWLTags.py script on the fly. Or, you can set up a cron job to constantly update the WLTags file over some interval.  *On-the-fly* only delays the page about 1-2 seconds, so I use this method.  
 
 ###Configuration Highlights:
 I assume you have PHP and Apache installed and running.  From here...
@@ -86,7 +86,7 @@ didn't' help.  If you have a better way, please let me know!
 ```
 * Create the crontab jobs:
    * checkStormEvent.py (every 6 mins?)
-   * if you choose to continually update weather creatWLTags.py (every minute?)
+   * if you choose to continually update weather createWLTags.py (every minute?)
 
 *  I run rtl_433AccuriteToWXSQL.py in a tmux shell to keep it active when I log off.  
 Other methods exists as you wish.

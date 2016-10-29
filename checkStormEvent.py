@@ -86,9 +86,9 @@ if (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=1))):
         resetData(startTime, stormRain)
         clearLastEvent(startTime)
         conn.commit()
-#check if 8 hrs has passed since it rained
+#Or, if 8 hrs has passed since it rained
 
-elif (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=8))):
+if (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=8))):
         stormRain = calcStormRain(startTime) * 0.01
         resetData(startTime, stormRain)
         clearLastEvent(startTime)

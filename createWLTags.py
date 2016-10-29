@@ -9,7 +9,7 @@ import re, math, time, sqlite3
 WLTagsPath = '/var/www/html/weather/WLtags.php' #path to WLTags.php in Saratoga Weather web files
 WLTagsHTXPath = '/var/www/html/weather/WXtags-template-files/WLtags.htx' # path to the htx template
 # http://www.aviationweather.gov and choose 4 letter ID for an airport near you
-baroStation = 'KGON'
+baroStation = 'KSNC'
 
 conn  = sqlite3.connect("/path/to/acurite.sqlite")
 
@@ -29,7 +29,9 @@ def getBaro ():
     return metar['altim_in_hg']
 
 def getHourOldBaro():
-    oldBaroUrl = "http://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&stationString=" + baroStation +"&hoursBeforeNow=1"
+    #NOTE:  If you keep getting errors here, evaluate your airport's METAR format.  This works for almost all airports in the US.
+    #However, I've run across a couple which have not.  You may have to change the len or key mapping
+    oldBaroUrl = "http://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&stationString=" + baroStation + "&hoursBeforeNow=1"
     response = urllib.urlopen(oldBaroUrl)
     metar = xmltodict.parse(response)['response']['data']['METAR']
     index = len(metar) -1
