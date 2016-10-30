@@ -77,18 +77,19 @@ print ('Time is: {0}'.format(convertDateToStr(checkTime)))
 print ('Last Event Time: {0}'.format(lastEventTime))
 print ('{0} < {1}'.format(lastEventTime, convertDateToStr(checkTime - timedelta(hours=1))))
 
-# check 1 hr plus 0.03 increase in Barometer
-if (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=1))):
-    print ('It has been at least an hour!')
-    if (float(getBaro()) - float(startBaro) > 0.03 ):
-        print ('And Baro is > 0.03!')
+#check if 8 hrs has passed since it rained
+
+if (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=8))):
         stormRain = calcStormRain(startTime) * 0.01
         resetData(startTime, stormRain)
         clearLastEvent(startTime)
         conn.commit()
-#Or, if 8 hrs has passed since it rained
 
-if (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=8))):
+# Or, check if 1 hr plus 0.03 increase in Barometer
+elif (convertToDateTime(lastEventTime) < (checkTime - timedelta(hours=1))):
+    print ('It has been at least an hour!')
+    if (float(getBaro()) - float(startBaro) > 0.03 ):
+        print ('And Baro is > 0.03!')
         stormRain = calcStormRain(startTime) * 0.01
         resetData(startTime, stormRain)
         clearLastEvent(startTime)
