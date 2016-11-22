@@ -3,6 +3,7 @@
 from datetime import datetime, timedelta
 import urllib, xmltodict
 import re, math, time, sqlite3
+from meteocalc import heat_index
 #####################################################################
 #   ******** UPDATE These to match your configuration ************  #
 #####################################################################
@@ -269,6 +270,10 @@ lastBaro = round(float(getHourOldBaro()) * 100)/ 100
 trend = baro - lastBaro
 dewchangelasthour = dewPoint - lastDew
 
+# Calulate the Heat index
+hi = heat_index(temperature=temp, humidity=humidity)
+outsideHeatIndex = hi.f
+
 #Write the fields to WLtags.htx
 filedata = None
 with open(WLTagsHTXPath, 'r') as file :
@@ -286,6 +291,7 @@ filedata = re.sub('<!--mintempyest-->',yminTemp, filedata)
 filedata = re.sub('<!--mintempyestt-->', yminTempTimeStr, filedata)
 filedata = re.sub('<!--outsideHumidity-->', str(humidity), filedata)
 filedata = re.sub('<!--outsideDewPt-->', str(round(dewPoint)), filedata)
+filedata = re.sub('<!--outsideHeatIndex-->', str(round(outsideHeatIndex)), filedata)
 filedata = re.sub('<!--barometer-->', str(baro), filedata)
 filedata = re.sub('<!--trend-->', str(trend), filedata)
 filedata = re.sub('<!--windDir-->', str(AverageWindDir), filedata)
